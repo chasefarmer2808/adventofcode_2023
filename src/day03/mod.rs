@@ -44,7 +44,7 @@ pub fn part_two(input_file: &str) -> u32 {
     let mut possible_gears: Vec<Vec<u32>> = Vec::new();
     let mut sum: u32 = 0;
 
-
+    return sum;
 }
 
 fn create_engin_map_matrix(map_lines: Vec<String>) -> Vec<Vec<char>> {
