@@ -106,6 +106,122 @@ pub fn part_one(input_file: &str) -> i64 {
     return min;
 }
 
+pub fn part_two(input_file: &str) -> i64 {
+    let almanac_lines = read_lines(input_file);
+    let mut seed_ranges: Vec<i64> = Vec::new();
+    let mut min = i64::MAX;
+    let mut mappings: Vec<Mapping> = Vec::new();
+
+    // Parse Almanac
+    for (i, line) in almanac_lines.iter().enumerate() {
+        if line.contains("seeds:") {
+            seed_ranges = parse_seeds(&line);
+            continue;
+        }
+
+        if line.contains("seed-to-soil map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("soil-to-fertilizer map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("fertilizer-to-water map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("water-to-light map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("light-to-temperature map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("temperature-to-humidity map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+
+        if line.contains("humidity-to-location map:") {
+            let mapping_nums: Vec<Vec<i64>> = num_strings_to_num_vecs(lines_to_num_strings(&almanac_lines[i+1..]));
+
+            let mut mapping = Mapping::default();
+            for mapping_num in mapping_nums {
+                mapping.maps.push(create_mapping(mapping_num[0], mapping_num[1], mapping_num[2]))
+            }
+            mappings.push(mapping);
+            continue;
+        }
+    }
+
+    // Gather locations.
+    let my_ranges = seed_ranges
+        .chunks(2)
+        .map(|vec| Range {
+            start: vec[0],
+            end: vec[0] + vec[1]
+        })
+        .collect::<Vec<_>>();
+
+    let mut location = 1_i64;
+
+    loop {
+        let mut cur = location;
+        for map in mappings.iter().rev() {
+            cur = map.reverse_lookup(cur)
+        }
+        for r in &my_ranges {
+            if r.contains(&cur) {
+                return location
+            }
+        }
+        location += 1;
+    }
+}
+
 fn parse_seeds(seed_line: &str) -> Vec<i64> {
     seed_line
         .split_whitespace()
@@ -146,6 +262,18 @@ impl Mapping {
                 return val + map.delta;
             }
         }
+        val
+    }
+
+    fn reverse_lookup(&self, val: i64) -> i64 {
+        for map in &self.maps {
+            let rev = val - map.delta;
+
+            if map.range.contains(&rev) {
+                return rev;
+            }
+        }
+
         val
     }
 }

@@ -13,5 +13,6 @@ fn main() {
     // println!("{:?}", day03::part_one("./src/day03/input.txt"));
     // println!("{:?}", day04::part_one("./src/day04/input.txt"));
     // println!("{:?}", day04::part_two("./src/day04/input.txt"));
-    println!("{:?}", day05::part_one("./src/day05/input.txt"));
+    // println!("{:?}", day05::part_one("./src/day05/input.txt"));
+    println!("{:?}", day05::part_two("./src/day05/input.txt"));
 }
