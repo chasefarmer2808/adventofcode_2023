@@ -231,6 +231,7 @@ fn calculate_strength_with_jokers(cards: &str) -> u8 {
     }
 
     // Check for 1-pair
+    // 1 pair w/ joker: AAJBC
     if hand_map.keys().len() == 4 {
         return if hand_map.contains_key(&'J') {
             4 // Make hand 3 of a kind
@@ -240,7 +241,11 @@ fn calculate_strength_with_jokers(cards: &str) -> u8 {
     }
 
     // Default to high card strength
-    return 1;
+    return if hand_map.contains_key(&'J') {
+        2
+    } else {
+        1
+    }
 }
 
 fn insert_sorted(list: &mut Vec<Hand>, new_item: Hand) {
