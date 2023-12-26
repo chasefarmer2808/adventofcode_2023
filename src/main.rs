@@ -6,6 +6,7 @@ mod day04;
 mod day05;
 mod day06;
 mod day07;
+mod day08;
 
 fn main() {
     // println!("{:?}", day01::soln("./src/day01/input.txt"));
@@ -20,5 +21,7 @@ fn main() {
     // println!("{:?}", day06::part_one("./src/day06/input.txt"));
     // println!("{:?}", day06::part_two("./src/day06/input.txt"));
     // println!("{:?}", day07::part_one("./src/day07/input.txt"));
-    println!("{:?}", day07::part_two("./src/day07/input.txt"));
+    // println!("{:?}", day07::part_two("./src/day07/input.txt"));
+    // println!("{:?}", day08::part_one("./src/day08/input.txt"));
+    println!("{:?}", day08::part_two("./src/day08/input.txt"));
 }
